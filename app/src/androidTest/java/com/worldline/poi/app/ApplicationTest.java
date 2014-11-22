@@ -1,4 +1,4 @@
-package poi.tempos21.com.poiworldline;
+package com.worldline.poi.app;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
