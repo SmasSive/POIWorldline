@@ -1,6 +1,7 @@
 package com.worldline.poi.data.repository;
 
 import com.worldline.poi.data.entity.POIEntity;
+import com.worldline.poi.data.entity.mapper.POIEntityDataMapper;
 import com.worldline.poi.data.repository.datasource.POIDAO;
 import com.worldline.poi.data.repository.datasource.POIDAOFactory;
 import com.worldline.poi.domain.repository.POIRepository;
@@ -18,6 +19,7 @@ public class POIRepositoryImpl implements POIRepository {
     private static POIRepositoryImpl INSTANCE;
 
     private final POIDAOFactory poiDAOFactory;
+    private final POIEntityDataMapper poiEntityDataMapper;
 
     /**
      * Get unique instance of {@link com.worldline.poi.data.repository.POIRepositoryImpl}.
@@ -27,9 +29,9 @@ public class POIRepositoryImpl implements POIRepository {
      *
      * @return a unique instance of {@link com.worldline.poi.data.repository.POIRepositoryImpl}.
      */
-    public static synchronized POIRepositoryImpl getInstance(POIDAOFactory poiDAOFactory) {
+    public static synchronized POIRepositoryImpl getInstance(POIDAOFactory poiDAOFactory, POIEntityDataMapper poiEntityDataMapper) {
         if (INSTANCE == null) {
-            INSTANCE = new POIRepositoryImpl(poiDAOFactory);
+            INSTANCE = new POIRepositoryImpl(poiDAOFactory, poiEntityDataMapper);
         }
 
         return INSTANCE;
@@ -41,12 +43,13 @@ public class POIRepositoryImpl implements POIRepository {
      * @param poiDAOFactory A {@link com.worldline.poi.data.repository.datasource.POIDAOFactory} for
      * retrieving the desired POIDAO implementation.
      */
-    protected POIRepositoryImpl(POIDAOFactory poiDAOFactory) {
+    protected POIRepositoryImpl(POIDAOFactory poiDAOFactory, POIEntityDataMapper poiEntityDataMapper) {
         if (poiDAOFactory == null) {
             throw new IllegalArgumentException("Invalid null parameters in constructor!!!");
         }
 
         this.poiDAOFactory = poiDAOFactory;
+        this.poiEntityDataMapper = poiEntityDataMapper;
     }
 
     /**
@@ -57,12 +60,28 @@ public class POIRepositoryImpl implements POIRepository {
      */
     @Override
     public void getPOIList(final POIListCallback poiListCallback) {
-        POIDAO dao = poiDAOFactory.createDAO();
-        dao.getPOIEntityList(new POIDAO.POIListCallback() {
+        // First, try to get objects from local DB
+        POIDAO localDAO = poiDAOFactory.createLocalDAO();
+        localDAO.getPOIEntityList(new POIDAO.POIListCallback() {
             @Override
             public void onPOIListLoaded(Collection<POIEntity> poisCollection) {
-                // TODO transform from POIEntity to POIBO
-                //poiListCallback.onPOIListLoaded();
+                // If we didn't find results, let's try in the net
+                if (poisCollection == null || poisCollection.size() == 0) {
+                    POIDAO netDAO = poiDAOFactory.createNetDAO();
+                    netDAO.getPOIEntityList(new POIDAO.POIListCallback() {
+                        @Override
+                        public void onPOIListLoaded(Collection<POIEntity> poisCollection) {
+                            poiListCallback.onPOIListLoaded(poiEntityDataMapper.transform(poisCollection));
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            poiListCallback.onError(exception);
+                        }
+                    });
+                } else {
+                    poiListCallback.onPOIListLoaded(poiEntityDataMapper.transform(poisCollection));
+                }
             }
 
             @Override
@@ -79,13 +98,27 @@ public class POIRepositoryImpl implements POIRepository {
      * @param poiDetailCallback A {@link com.worldline.poi.domain.repository.POIRepository.POIDetailCallback}
      */
     @Override
-    public void getPOIDetail(int id, final POIDetailCallback poiDetailCallback) {
-        POIDAO dao = poiDAOFactory.createDAO();
-        dao.getPOIDetail(id, new POIDAO.POIDetailCallback() {
+    public void getPOIDetail(final int id, final POIDetailCallback poiDetailCallback) {
+        POIDAO localDAO = poiDAOFactory.createLocalDAO();
+        localDAO.getPOIDetail(id, new POIDAO.POIDetailCallback() {
             @Override
             public void onPOILoaded(POIEntity poi) {
-                // TODO transform from POIEntity to POIBO
-                //poiDetailCallback.onPOIDetailLoaded();
+                if (poi == null) {
+                    POIDAO netDAO = poiDAOFactory.createNetDAO();
+                    netDAO.getPOIDetail(id, new POIDAO.POIDetailCallback() {
+                        @Override
+                        public void onPOILoaded(POIEntity poi) {
+                            poiDetailCallback.onPOIDetailLoaded(poiEntityDataMapper.transform(poi));
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                            poiDetailCallback.onError(exception);
+                        }
+                    });
+                } else {
+                    poiDetailCallback.onPOIDetailLoaded(poiEntityDataMapper.transform(poi));
+                }
             }
 
             @Override
