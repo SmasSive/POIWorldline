@@ -1,4 +1,4 @@
-package com.worldline.poi.data.repository.datasource;
+package com.worldline.poi.data.repository.dao;
 
 import android.content.Context;
 
@@ -10,7 +10,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
- * Implementation of {@link com.worldline.poi.data.repository.datasource.POIDAO} for retrieving POI
+ * Implementation of {@link com.worldline.poi.data.repository.dao.POIDAO} for retrieving POI
  * locally.
  *
  * Created by smassive on 11/23/14.
@@ -31,7 +31,7 @@ public class POIDAOLocalImpl implements POIDAO {
     /**
      * Get a list of {@link com.worldline.poi.data.entity.POIEntity}.
      *
-     * @param poiListCallback A {@link com.worldline.poi.data.repository.datasource.POIDAO.POIListCallback}
+     * @param poiListCallback A {@link com.worldline.poi.data.repository.dao.POIDAO.POIListCallback}
      *                        to notify clients.
      */
     @Override
@@ -53,7 +53,7 @@ public class POIDAOLocalImpl implements POIDAO {
      * Get the details of a {@link com.worldline.poi.data.entity.POIEntity} by its id.
      *
      * @param id                The identifier of the desired POI data.
-     * @param poiDetailCallback A {@link com.worldline.poi.data.repository.datasource.POIDAO.POIDetailCallback}
+     * @param poiDetailCallback A {@link com.worldline.poi.data.repository.dao.POIDAO.POIDetailCallback}
      */
     @Override
     public void getPOIDetail(int id, POIDetailCallback poiDetailCallback) {

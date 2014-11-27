@@ -2,11 +2,14 @@ package com.worldline.poi.data.repository;
 
 import com.worldline.poi.data.entity.POIEntity;
 import com.worldline.poi.data.entity.mapper.POIEntityDataMapper;
-import com.worldline.poi.data.repository.datasource.POIDAO;
-import com.worldline.poi.data.repository.datasource.POIDAOFactory;
+import com.worldline.poi.data.repository.dao.POIDAO;
+import com.worldline.poi.data.repository.dao.POIDAOFactory;
 import com.worldline.poi.domain.repository.POIRepository;
 
 import java.util.Collection;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Class that implements {@link com.worldline.poi.domain.repository.POIRepository} for retrieving
@@ -14,43 +17,11 @@ import java.util.Collection;
  *
  * Created by smassive on 11/23/14.
  */
+@Singleton
 public class POIRepositoryImpl implements POIRepository {
 
-    private static POIRepositoryImpl INSTANCE;
-
-    private final POIDAOFactory poiDAOFactory;
-    private final POIEntityDataMapper poiEntityDataMapper;
-
-    /**
-     * Get unique instance of {@link com.worldline.poi.data.repository.POIRepositoryImpl}.
-     *
-     * @param poiDAOFactory A {@link com.worldline.poi.data.repository.datasource.POIDAOFactory} for
-     * retrieving the desired POIDAO implementation.
-     *
-     * @return a unique instance of {@link com.worldline.poi.data.repository.POIRepositoryImpl}.
-     */
-    public static synchronized POIRepositoryImpl getInstance(POIDAOFactory poiDAOFactory, POIEntityDataMapper poiEntityDataMapper) {
-        if (INSTANCE == null) {
-            INSTANCE = new POIRepositoryImpl(poiDAOFactory, poiEntityDataMapper);
-        }
-
-        return INSTANCE;
-    }
-
-    /**
-     * Constructs a {@link com.worldline.poi.data.repository.POIRepositoryImpl}.
-     *
-     * @param poiDAOFactory A {@link com.worldline.poi.data.repository.datasource.POIDAOFactory} for
-     * retrieving the desired POIDAO implementation.
-     */
-    protected POIRepositoryImpl(POIDAOFactory poiDAOFactory, POIEntityDataMapper poiEntityDataMapper) {
-        if (poiDAOFactory == null) {
-            throw new IllegalArgumentException("Invalid null parameters in constructor!!!");
-        }
-
-        this.poiDAOFactory = poiDAOFactory;
-        this.poiEntityDataMapper = poiEntityDataMapper;
-    }
+    @Inject private POIDAOFactory poiDAOFactory;
+    @Inject private POIEntityDataMapper poiEntityDataMapper;
 
     /**
      * Get a collection of {@link com.worldline.poi.domain.bo.POIBO}.
@@ -72,6 +43,8 @@ public class POIRepositoryImpl implements POIRepository {
                         @Override
                         public void onPOIListLoaded(Collection<POIEntity> poisCollection) {
                             poiListCallback.onPOIListLoaded(poiEntityDataMapper.transform(poisCollection));
+
+                            // TODO Save to DB
                         }
 
                         @Override

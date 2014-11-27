@@ -1,31 +1,26 @@
-package com.worldline.poi.data.repository.datasource;
+package com.worldline.poi.data.repository.dao;
 
 import com.worldline.poi.data.entity.POIEntity;
 import com.worldline.poi.data.net.POIService;
 
 import java.util.Collection;
 
+import javax.inject.Inject;
+
 /**
- * Implementation of {@link com.worldline.poi.data.repository.datasource.POIDAO} for retrieving POI
+ * Implementation of {@link com.worldline.poi.data.repository.dao.POIDAO} for retrieving POI
  * from the net.
  *
  * Created by smassive on 11/23/14.
  */
 public class POIDAONetImpl implements POIDAO {
 
-    private POIService poiService;
-
-    public POIDAONetImpl(POIService poiService) {
-        if (poiService == null) {
-            throw new IllegalArgumentException("Invalid null parameters in constructor!!!");
-        }
-        this.poiService = poiService;
-    }
+    @Inject private POIService poiService;
 
     /**
      * Get a list of {@link com.worldline.poi.data.entity.POIEntity}.
      *
-     * @param poiListCallback A {@link com.worldline.poi.data.repository.datasource.POIDAO.POIListCallback}
+     * @param poiListCallback A {@link com.worldline.poi.data.repository.dao.POIDAO.POIListCallback}
      *                        to notify clients.
      */
     @Override
@@ -47,7 +42,7 @@ public class POIDAONetImpl implements POIDAO {
      * Get the details of a {@link com.worldline.poi.data.entity.POIEntity} by its id.
      *
      * @param id                The identifier of the desired POI data.
-     * @param poiDetailCallback A {@link com.worldline.poi.data.repository.datasource.POIDAO.POIDetailCallback}
+     * @param poiDetailCallback A {@link com.worldline.poi.data.repository.dao.POIDAO.POIDetailCallback}
      */
     @Override
     public void getPOIDetail(int id, final POIDetailCallback poiDetailCallback) {

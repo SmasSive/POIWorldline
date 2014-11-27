@@ -1,4 +1,4 @@
-package com.worldline.poi.data.repository.datasource;
+package com.worldline.poi.data.repository.dao;
 
 import com.worldline.poi.data.entity.POIEntity;
 
