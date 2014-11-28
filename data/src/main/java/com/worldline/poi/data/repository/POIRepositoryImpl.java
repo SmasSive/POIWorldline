@@ -20,8 +20,25 @@ import javax.inject.Singleton;
 @Singleton
 public class POIRepositoryImpl implements POIRepository {
 
-    @Inject private POIDAOFactory poiDAOFactory;
-    @Inject private POIEntityDataMapper poiEntityDataMapper;
+    private POIDAOFactory poiDAOFactory;
+    private POIEntityDataMapper poiEntityDataMapper;
+
+    /**
+     * Constructs a {@link com.worldline.poi.data.repository.POIRepositoryImpl}.
+     *
+     * @param poiDAOFactory A {@link com.worldline.poi.data.repository.dao.POIDAOFactory} for
+     * retrieving the desired POIDAO implementation.
+     * @param poiEntityDataMapper The {@link com.worldline.poi.data.entity.mapper.POIEntityDataMapper}
+     * responsible for the conversion of the objects between layers.
+     */
+    @Inject protected POIRepositoryImpl(POIDAOFactory poiDAOFactory, POIEntityDataMapper poiEntityDataMapper) {
+        if (poiDAOFactory == null || poiEntityDataMapper == null) {
+            throw new IllegalArgumentException("Invalid null parameters in constructor!!!");
+        }
+
+        this.poiDAOFactory = poiDAOFactory;
+        this.poiEntityDataMapper = poiEntityDataMapper;
+    }
 
     /**
      * Get a collection of {@link com.worldline.poi.domain.bo.POIBO}.

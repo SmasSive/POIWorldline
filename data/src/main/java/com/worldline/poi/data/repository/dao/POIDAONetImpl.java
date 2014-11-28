@@ -15,7 +15,20 @@ import javax.inject.Inject;
  */
 public class POIDAONetImpl implements POIDAO {
 
-    @Inject private POIService poiService;
+    private POIService poiService;
+
+    /**
+     * Constructs a {@link com.worldline.poi.data.repository.dao.POIDAONetImpl}.
+     *
+     * @param poiService The {@link com.worldline.poi.data.net.POIService} for
+     * retrieving the desired data from the net.
+     */
+    public POIDAONetImpl(POIService poiService) {
+        if (poiService == null) {
+            throw new IllegalArgumentException("Invalid null parameters in constructor!!!");
+        }
+        this.poiService = poiService;
+    }
 
     /**
      * Get a list of {@link com.worldline.poi.data.entity.POIEntity}.

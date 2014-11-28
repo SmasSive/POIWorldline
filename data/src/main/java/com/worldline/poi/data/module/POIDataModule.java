@@ -4,6 +4,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.otto.Bus;
 import com.worldline.poi.data.constants.DataConstants;
 import com.worldline.poi.data.net.POIService;
+import com.worldline.poi.data.repository.dao.POIDAOFactory;
 
 import javax.inject.Singleton;
 
@@ -13,22 +14,13 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 
 /**
- * Dagger module to provide POIService interface
- *
- * Created by smassive on 27/11/2014.
+ * Created by smassive on 28/11/2014.
  */
-@Module(
-        library = true,
+@Module (
+        injects = {POIDAOFactory.class},
         complete = false
 )
 public class POIDataModule {
-
-    @Provides
-    @Singleton
-    public Bus provideBus() {
-        return new Bus();
-    }
-
     @Provides
     @Singleton
     public POIService providePOIService() {
@@ -38,4 +30,9 @@ public class POIDataModule {
                 .setEndpoint(DataConstants.ENDPOINT)
                 .build().create(POIService.class);
     }
+
+    // Not needed yet
+//    @Provides @Singleton public Bus provideBus() {
+//        return new Bus();
+//    }
 }
