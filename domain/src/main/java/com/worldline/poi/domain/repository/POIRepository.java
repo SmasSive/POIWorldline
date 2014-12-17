@@ -12,35 +12,15 @@ import java.util.Collection;
 public interface POIRepository {
 
     /**
-     * Callback used to be notified when either a POI list has been loaded or an error happened.
-     */
-    public interface POIListCallback {
-        public void onPOIListLoaded(Collection<POIBO> poiBOsCollection);
-        public void onError(Exception exception);
-    }
-
-    /**
-     * Callback used to be notified when either a POI has been loaded or an error happened.
-     */
-    public interface POIDetailCallback {
-        public void onPOIDetailLoaded(POIBO poiBO);
-        public void onError(Exception exception);
-    }
-
-    /**
-     * Get a collection of {@link com.worldline.poi.domain.bo.POIBO}.
+     * Get a Collection of {@link com.worldline.poi.domain.bo.POIBO}.
      *
-     * @param poiListCallback A {@link com.worldline.poi.domain.repository.POIRepository.POIListCallback}
-     * to notify clients.
      */
-    public void getPOIList(POIListCallback poiListCallback);
+    public void getPOIList();
 
     /**
      * Get a {@link com.worldline.poi.domain.bo.POIBO} by its identifier.
      *
      * @param id The identifier of the desired POI.
-     * @param poiDetailCallback A {@link com.worldline.poi.domain.repository.POIRepository.POIDetailCallback}
-     * to notify clients.
      */
-    public void getPOIDetail(int id, POIDetailCallback poiDetailCallback);
+    public void getPOIDetail(int id);
 }

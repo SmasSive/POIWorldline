@@ -1,11 +1,11 @@
-package com.worldline.poi.data.entity;
+package com.worldline.poi.data.bean.vo;
 
 import io.realm.RealmObject;
 
 /**
  * Created by smassive on 11/22/14.
  */
-public class POIEntity extends RealmObject {
+public class POIVO extends RealmObject {
     private int id;
     private String title;
     private String address;

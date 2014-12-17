@@ -9,10 +9,6 @@ dependencies {
     testCompile 'org.mockito:mockito-core:1.9.5'
     testCompile 'junit:junit:4.11'
     testCompile 'org.robolectric:robolectric:2.2'
-
-    testCompile dataLayer.android.libraryVariants.toList().first().javaCompile.classpath
-    testCompile dataLayer.android.libraryVariants.toList().first().javaCompile.outputs.files
-    testCompile files(dataLayer.plugins.findPlugin("com.android.library").getBootClasspath())
 }
 
 sourceSets {

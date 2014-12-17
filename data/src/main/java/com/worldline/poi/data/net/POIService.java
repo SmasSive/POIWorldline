@@ -1,41 +1,28 @@
 package com.worldline.poi.data.net;
 
-import com.worldline.poi.data.entity.POIEntity;
+import com.worldline.poi.data.bean.dto.POIDTO;
 
 import java.util.Collection;
 
 import retrofit.http.GET;
 import retrofit.http.Path;
+import rx.Observable;
 
 /**
  * Created by smassive on 11/22/14.
  */
 public interface POIService {
 
-    public interface POIListCallback {
-        public void onPOIListLoaded(Collection<POIEntity> poisCollection);
-        public void onError(Exception exception);
-    }
-
-    public interface POIDetailCallback {
-        public void onPOIDetailLoaded(POIEntity poi);
-        public void onError(Exception exception);
-    }
-
     /**
-     * Get the list of POIs asynchronously.
-     * @param POIListCallback {@link com.worldline.poi.data.net.POIService.POIListCallback} to be
-     * nofified when POI list has been retrieved.
+     * Get the list of POIs.
      */
     @GET("/points")
-    public void getPOIList(POIListCallback POIListCallback);
+    public Observable<Collection<POIDTO>> getPOIList();
 
     /**
-     * Get the detail of a POI by id asynchronously.
+     * Get the detail of a POI by id.
      * @param poiId The POI id to get POI data.
-     * @param POIDetailCallback {@link com.worldline.poi.data.net.POIService.POIDetailCallback} to
-     * be notified when POI has been retrieved.
      */
     @GET("/points/{id}")
-    public void getPOIById(@Path("id") int poiId, POIDetailCallback POIDetailCallback);
+    public Observable<POIDTO> getPOIById(@Path("id") int poiId);
 }

@@ -1,6 +1,6 @@
 package com.worldline.poi.data.repository.dao;
 
-import com.worldline.poi.data.entity.POIEntity;
+import com.worldline.poi.data.bean.vo.POIVO;
 
 import java.util.Collection;
 
@@ -19,7 +19,7 @@ public interface POIDAO {
      * occurred.
      */
     public interface POIListCallback {
-        void onPOIListLoaded(Collection<POIEntity> poisCollection);
+        void onPOIListLoaded(Collection<POIVO> poisCollection);
         void onError(Exception exception);
     }
 
@@ -27,25 +27,37 @@ public interface POIDAO {
      * Callback used for clients to be notified when either poi data has been retrieved successfully
      * or any error occurred.
      */
-    public interface  POIDetailCallback {
-        void onPOILoaded(POIEntity poi);
+    public interface POIDetailCallback {
+        void onPOILoaded(POIVO poi);
         void onError(Exception exception);
     }
 
     /**
-     * Get a list of {@link com.worldline.poi.data.entity.POIEntity}.
+     * Get a list of {@link com.worldline.poi.data.bean.vo.POIVO}.
      *
-     * @param poiListCallback A {@link POIDAO.POIListCallback}
-     * to notify clients.
+     * @param poiListCallback A {@link POIDAO.POIListCallback} to notify clients.
      */
     public void getPOIEntityList(POIListCallback poiListCallback);
 
     /**
-     * Get the details of a {@link com.worldline.poi.data.entity.POIEntity} by its id.
+     * Save a list of {@link com.worldline.poi.data.bean.vo.POIVO}.
+     *
+     * @param poiEntities The collection of {@link com.worldline.poi.data.bean.vo.POIVO} to save.
+     */
+    public void savePOIEntityList(Collection<POIVO> poiEntities);
+
+    /**
+     * Get the details of a {@link com.worldline.poi.data.bean.vo.POIVO} by its id.
      *
      * @param id The identifier of the desired POI data.
-     * @param poiDetailCallback A {@link POIDAO.POIDetailCallback}
-     * to notify clients.
+     * @param poiDetailCallback A {@link POIDAO.POIDetailCallback} to notify clients.
      */
     public void getPOIDetail(int id, POIDetailCallback poiDetailCallback);
+
+    /**
+     * Save the details of a {@link com.worldline.poi.data.bean.vo.POIVO} entity.
+     *
+     * @param entity            The entity {@link com.worldline.poi.data.bean.vo.POIVO} to save.
+     */
+    public void savePOIDetail(POIVO entity);
 }

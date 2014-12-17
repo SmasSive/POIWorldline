@@ -20,12 +20,7 @@ android {
 }
 
 dependencies {
-    def domainLayer = project(':domain')
-    def dataLayer = project(':data')
-
-    //project dependencies
-    compile domainLayer
-    compile dataLayer
-
+    compile project(':domain')
+    compile project(':data')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
