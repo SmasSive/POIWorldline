@@ -11,16 +11,22 @@ import java.util.Collection;
  */
 public interface POIRepository {
 
+    public interface Callback {
+        void onPOIListLoaded(Collection<POIBO> poiBOsCollection);
+        void onPOILoaded(POIBO poiBO);
+        void onError(Exception exception);
+    }
+
     /**
      * Get a Collection of {@link com.worldline.poi.domain.bo.POIBO}.
      *
      */
-    public void getPOIList();
+    public void getPOIList(Callback callback);
 
     /**
      * Get a {@link com.worldline.poi.domain.bo.POIBO} by its identifier.
      *
      * @param id The identifier of the desired POI.
      */
-    public void getPOIDetail(int id);
+    public void getPOIDetail(int id, Callback callback);
 }

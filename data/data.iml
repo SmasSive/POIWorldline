@@ -90,7 +90,7 @@
     <orderEntry type="library" exported="" name="okio-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="dagger-compiler-1.2.2" level="project" />
-    <orderEntry type="library" exported="" name="realm-android-0.74.0" level="project" />
+    <orderEntry type="library" exported="" name="realm-android-0.75.1" level="project" />
     <orderEntry type="library" exported="" name="rxjava-android-0.20.7" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />

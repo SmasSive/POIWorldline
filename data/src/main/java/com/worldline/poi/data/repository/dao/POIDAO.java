@@ -19,7 +19,7 @@ public interface POIDAO {
      * occurred.
      */
     public interface POIListCallback {
-        void onPOIListLoaded(Collection<POIVO> poisCollection);
+        void onPOIListLoaded(Collection<POIVO> poiVOsCollection);
         void onError(Exception exception);
     }
 
@@ -28,7 +28,7 @@ public interface POIDAO {
      * or any error occurred.
      */
     public interface POIDetailCallback {
-        void onPOILoaded(POIVO poi);
+        void onPOILoaded(int id, POIVO poi);
         void onError(Exception exception);
     }
 
@@ -37,14 +37,14 @@ public interface POIDAO {
      *
      * @param poiListCallback A {@link POIDAO.POIListCallback} to notify clients.
      */
-    public void getPOIEntityList(POIListCallback poiListCallback);
+    public void getPOIList(POIListCallback poiListCallback);
 
     /**
      * Save a list of {@link com.worldline.poi.data.bean.vo.POIVO}.
      *
-     * @param poiEntities The collection of {@link com.worldline.poi.data.bean.vo.POIVO} to save.
+     * @param poiVOsCollection The collection of {@link com.worldline.poi.data.bean.vo.POIVO} to save.
      */
-    public void savePOIEntityList(Collection<POIVO> poiEntities);
+    public void savePOIList(Collection<POIVO> poiVOsCollection);
 
     /**
      * Get the details of a {@link com.worldline.poi.data.bean.vo.POIVO} by its id.
@@ -57,7 +57,7 @@ public interface POIDAO {
     /**
      * Save the details of a {@link com.worldline.poi.data.bean.vo.POIVO} entity.
      *
-     * @param entity            The entity {@link com.worldline.poi.data.bean.vo.POIVO} to save.
+     * @param poiVO            The entity {@link com.worldline.poi.data.bean.vo.POIVO} to save.
      */
-    public void savePOIDetail(POIVO entity);
+    public void savePOIDetail(POIVO poiVO);
 }

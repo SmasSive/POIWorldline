@@ -42,7 +42,7 @@ public class POIDAONetImpl implements POIDAO {
      *                        to notify clients.
      */
     @Override
-    public void getPOIEntityList(final POIListCallback poiListCallback) {
+    public void getPOIList(final POIListCallback poiListCallback) {
         poiService.getPOIList().map(new Func1<Collection<POIDTO>, Collection<POIVO>>() {
             @Override
             public Collection<POIVO> call(Collection<POIDTO> poiDTOs) {
@@ -81,7 +81,7 @@ public class POIDAONetImpl implements POIDAO {
      * @param poiEntities     The collection of {@link com.worldline.poi.data.bean.vo.POIVO} to save.
      */
     @Override
-    public void savePOIEntityList(Collection<POIVO> poiEntities) {
+    public void savePOIList(Collection<POIVO> poiEntities) {
         throw new UnsupportedOperationException();
     }
 
@@ -92,7 +92,7 @@ public class POIDAONetImpl implements POIDAO {
      * @param poiDetailCallback A {@link com.worldline.poi.data.repository.dao.POIDAO.POIDetailCallback}
      */
     @Override
-    public void getPOIDetail(int id, final POIDetailCallback poiDetailCallback) {
+    public void getPOIDetail(final int id, final POIDetailCallback poiDetailCallback) {
         poiService.getPOIById(id).map(new Func1<POIDTO, POIVO>() {
             @Override
             public POIVO call(POIDTO poiDTO) {
@@ -118,7 +118,7 @@ public class POIDAONetImpl implements POIDAO {
             @Override
             public void onNext(POIVO poiVO) {
                 if (poiDetailCallback != null) {
-                    poiDetailCallback.onPOILoaded(poiVO);
+                    poiDetailCallback.onPOILoaded(id, poiVO);
                 }
             }
         });

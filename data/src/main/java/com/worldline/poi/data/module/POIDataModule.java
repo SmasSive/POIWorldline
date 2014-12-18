@@ -4,6 +4,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.worldline.poi.data.constants.DataConstants;
 import com.worldline.poi.data.net.POIService;
 import com.worldline.poi.data.repository.dao.POIDAOFactory;
+import com.worldline.poi.data.repository.datasource.POIDataSource;
 
 import javax.inject.Singleton;
 

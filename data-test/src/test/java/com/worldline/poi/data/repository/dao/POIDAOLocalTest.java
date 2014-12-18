@@ -28,6 +28,6 @@ public class POIDAOLocalTest {
     }
 
     @Test public void testGetPOIEntityListSuccess() {
-        poiDAOLocal.getPOIEntityList(poiListCallback);
+        poiDAOLocal.getPOIList(poiListCallback);
     }
 }
