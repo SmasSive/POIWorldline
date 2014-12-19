@@ -10,7 +10,9 @@ import java.util.Collection;
 
 import rx.Observable;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Implementation of {@link com.worldline.poi.data.repository.dao.POIDAO} for retrieving POI
@@ -50,8 +52,8 @@ public class POIDAONetImpl implements POIDAO {
                 return mapper.transform(poiDTOs);
             }
         })
-        //.subscribeOn(Schedulers.newThread()) // FIXME Susbscribe (execute) in a new thread?
-        //.observeOn(AndroidSchedulers.mainThread()) // FIXME Observe (notify) in main thread?
+        .subscribeOn(Schedulers.newThread()) // Susbscribe (execute) in a new thread?
+        .observeOn(AndroidSchedulers.mainThread()) // Observe (notify) in main thread?
         .subscribe(new Observer<Collection<POIVO>>() {
             @Override
             public void onCompleted() {
@@ -100,8 +102,8 @@ public class POIDAONetImpl implements POIDAO {
                 return mapper.transform(poiDTO);
             }
         })
-        //.subscribeOn(Schedulers.newThread()) // FIXME Susbscribe (execute) in a new thread?
-        //.observeOn(AndroidSchedulers.mainThread()) // FIXME Observe (notify) in main thread?
+        .subscribeOn(Schedulers.newThread()) // Susbscribe (execute) in a new thread?
+        .observeOn(AndroidSchedulers.mainThread()) // Observe (notify) in main thread?
         .subscribe(new Observer<POIVO>() {
             @Override
             public void onCompleted() {
